@@ -21,7 +21,7 @@ export default {
             // The signed-in user info.
             const user = result.user;
 
-            console.log(user)
+            // console.log(user)
 
             router.push(`/user/${user.email}`)
         }

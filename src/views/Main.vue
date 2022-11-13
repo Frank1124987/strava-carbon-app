@@ -118,7 +118,8 @@ export default {
 
       // Dev version
       authLink.value = `https://www.strava.com/oauth/authorize?client_id=${client.id}&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity:read_all`
-      // !WARN : Official should be a static domain not local host
+      // Public version
+      // authLink.value = `https://www.strava.com/oauth/authorize?client_id=${client.id}&response_type=code&redirect_uri=https://27b3-119-14-159-44.jp.ngrok.io/exchange_token&approval_prompt=force&scope=activity:read_all`
       
       let data = {
         client: client,
@@ -128,7 +129,9 @@ export default {
       firestore.createInfo(firebaseAuth.auth.currentUser.email, data)
 
       dataService.uploadData(client, surveyResult)
-      .then(console.log)
+      .then(() => {
+        console.log("data submitted")
+      })
     }
 
 
