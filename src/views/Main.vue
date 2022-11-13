@@ -53,7 +53,7 @@
       </div>
       <div>
         距離：
-        {{ responseData['distance(km)'] }} km
+        {{ responseData['distance(km)'].toFixed(3) }} km
       </div>
       <div>
         最高速度：
@@ -61,7 +61,7 @@
       </div>
       <div>
         平均速度：
-        {{ responseData['speed_avg(km/hr)'] }} km/hr
+        {{ responseData['speed_avg(km/hr)'].toFixed(3) }} km/hr
       </div>
     </div>
   </div>
