@@ -11,7 +11,11 @@ const routes = [
     {
       path: '/login',
       component: Login
-    }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: {path: '/login'}
+    },
   ]
   
   const router = createRouter({
