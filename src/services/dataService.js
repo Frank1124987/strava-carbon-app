@@ -6,9 +6,11 @@ class dataService{
         // console.log(client_id, client_secret)
     }
 
-    // stravaAuth(client_id){
-    //     return http.get()
-    // }
+    getCarbonReduction(activityId){
+        return http.post("/api/get-carbon-reduction",{
+            activity_id: activityId
+        })
+    }
 }
 
 export default new dataService

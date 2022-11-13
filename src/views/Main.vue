@@ -27,17 +27,42 @@
         </UserSurvey>
       </div>
       <br>
-      <div>
-        <h1>要上傳的</h1>
-        <label for="activity-id">Activity Id:</label>
-        <input v-model="client.activityId" id="activity-id" type="text">
-      </div>
-      <br>
       <button>Submit</button>
     </form>
-
+    <br>
     <div v-if="submitted">
-      <CustomLink :to="authLink" > Auth </CustomLink>
+      <div>
+        <CustomLink :to="authLink" > Auth </CustomLink>
+      </div>
+      <div>
+        <div>
+          <h1>要上傳的</h1>
+          <label for="activity-id">Activity Id:</label>
+          <input v-model="currentActivityId" id="activity-id" type="text">
+        </div>
+        <button @click="getCarbonReduction">
+          generate
+        </button>
+      </div>
+    </div>
+    <br>
+    <div v-if="responseReceived" id="pop-up">
+      <div>
+        減碳量：
+        {{ (responseData['Carbon_reduction(ton)']* 1000000).toFixed(3) }} g
+      </div>
+      <div>
+        距離：
+        {{ responseData['distance(km)'] }} km
+      </div>
+      <div>
+        最高速度：
+        {{ responseData['speed_max(km/hr)'].toFixed(3) }} km/hr
+      </div>
+      <div>
+        平均速度：
+        {{ responseData['speed_avg(km/hr)'] }} km/hr
+      </div>
     </div>
   </div>
 </template>
@@ -64,9 +89,8 @@ export default {
     const client = reactive({
       id: null,
       secret: null,
-      activityId: null
     })
-    
+    const currentActivityId = ref("")
     const authLink = ref("")
     const submitted = ref(false)
     const surveyInterval = reactive(['2', '5', '15', '20', '20以上'])
@@ -112,28 +136,8 @@ export default {
         thirdPer: 0
       }
     })
-
-    const submit = () => {
-      submitted.value = true
-
-      // Dev version
-      // authLink.value = `https://www.strava.com/oauth/authorize?client_id=${client.id}&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity:read_all`
-      // Public version
-      authLink.value = `https://www.strava.com/oauth/authorize?client_id=${client.id}&response_type=code&redirect_uri=https://27b3-119-14-159-44.jp.ngrok.io/exchange_token&approval_prompt=force&scope=activity:read_all`
-      
-      let data = {
-        client: client,
-        survey: surveyResult
-      }
-
-      firestore.createInfo(firebaseAuth.auth.currentUser.email, data)
-
-      dataService.uploadData(client, surveyResult)
-      .then(() => {
-        console.log("data submitted")
-      })
-    }
-
+    const responseData = reactive({})
+    const responseReceived = ref(false)
 
     onAuthStateChanged(firebaseAuth.auth, (user) => {
         if (!user){
@@ -149,10 +153,47 @@ export default {
           })
     })
 
+    const submit = () => {
+      // Dev version
+      // authLink.value = `https://www.strava.com/oauth/authorize?client_id=${client.id}&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity:read_all`
+      // Public version
+      authLink.value = `https://www.strava.com/oauth/authorize?client_id=${client.id}&response_type=code&redirect_uri=https://27b3-119-14-159-44.jp.ngrok.io/exchange_token&approval_prompt=force&scope=activity:read_all`
+      
+      let data = {
+        client: client,
+        survey: surveyResult
+      }
+
+      firestore.createInfo(firebaseAuth.auth.currentUser.email, data)
+
+      dataService.uploadData(client, surveyResult)
+      .then(() => {
+        submitted.value = true
+        console.log("data submitted")
+      })
+    }
+
     const signOut = async() => {
       const result = await firebaseAuth.signOut()
     }
 
+    const getCarbonReduction = () => {
+      if (!currentActivityId.value) {
+        console.log("missing activity id")
+        return
+      }
+      // console.log(currentActivityId.value)
+      // return
+      dataService.getCarbonReduction(currentActivityId.value)
+      .then((result) => {
+        console.log(result.data)
+        Object.assign(responseData, result.data)
+        responseReceived.value = true
+
+      }).catch((e) => {
+        console.log("getCarbonReduction error: ", e)
+      })
+    }
 
     return{
       client,
@@ -161,7 +202,11 @@ export default {
       submitted,
       surveyResult,
       surveyInterval,
-      signOut
+      signOut,
+      getCarbonReduction,
+      currentActivityId,
+      responseData,
+      responseReceived
     }
   }
 }

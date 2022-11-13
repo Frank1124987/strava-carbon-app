@@ -1,9 +1,16 @@
 <template>
     <div>
-        <a v-if="isExternal" 
+        <!-- <a v-if="isExternal" 
             :href="to" 
             target="_blank"
-        > <slot/></a>
+        > <slot/></a> -->
+
+        <button 
+            v-if="isExternal"
+            @click= "openLink"
+        >
+            <slot/>
+        </button>
         <router-link v-else v-bind="props"><slot/></router-link>
     </div>
 </template>
@@ -28,9 +35,15 @@ export default {
             return typeof to.value === 'string' && to.value.startsWith('http')
         })
 
+        const openLink = () => {
+            // console.log(to.value)
+            window.open(to.value)
+        }
+
         return{
             to,
-            isExternal
+            isExternal,
+            openLink
         }
     }
 }
