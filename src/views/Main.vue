@@ -157,7 +157,7 @@ export default {
       // Dev version
       // authLink.value = `https://www.strava.com/oauth/authorize?client_id=${client.id}&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity:read_all`
       // Public version
-      authLink.value = `https://www.strava.com/oauth/authorize?client_id=${client.id}&response_type=code&redirect_uri=https://27b3-119-14-159-44.jp.ngrok.io/exchange_token&approval_prompt=force&scope=activity:read_all`
+      authLink.value = `https://www.strava.com/oauth/authorize?client_id=${client.id}&response_type=code&redirect_uri=https://d360-119-14-159-44.jp.ngrok.io/exchange_token&approval_prompt=force&scope=activity:read_all`
       
       let data = {
         client: client,

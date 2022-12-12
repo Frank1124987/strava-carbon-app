@@ -89,47 +89,51 @@ export default {
         const options = reactive([
             {
                 text: '機車',
-                value: 'scooter'
+                value: '機車'
             },
             {
                 text: '電動機車',
-                value: 'eScooter'
+                value: '電動機車'
             },
             {
                 text: '公車',
-                value: 'bus'
+                value: '公車'
             },
             {
                 text: '汽車',
-                value: 'car'
+                value: '汽車'
             },
             {
                 text: '油電混合車',
-                value: 'hCar'
+                value: '油電混合車'
             },
             {
                 text: '電動車',
-                value: 'eCar'
+                value: '電動車'
             },
             {
                 text: '捷運',
-                value: 'mrt'
+                value: '捷運'
             },
             {
                 text: '火車',
-                value: 'train'
+                value: '火車'
             },
             {
                 text: '高鐵',
-                value: 'hsr'
+                value: '高鐵'
             },
             {
                 text: '步行',
-                value: 'walk'
+                value: '步行'
             },
             {
                 text: '自行車',
-                value: 'bike'
+                value: '自行車'
+            },
+            {
+                text: '電動自行車',
+                value: '電動自行車'
             }
         ])
 
