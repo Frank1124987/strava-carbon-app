@@ -1,5 +1,9 @@
 # frontend
 
+The website allows user to import their cycling data from Strava App to calculate the amount of carbon emission they reduce compared to driving a car.
+
+(prototype only)
+
 ## Project setup
 ```
 npm install
@@ -9,16 +13,3 @@ npm install
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
